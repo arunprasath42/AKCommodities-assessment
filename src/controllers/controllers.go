@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// API to Read data from the database
+// FetchHistoricalExchangeRates -inserts exchange rates into database from openexchangerates
 func FetchHistoricalExchangeRates(c *gin.Context) {
 
 	var service service.ExchangeRatesService
@@ -24,8 +24,8 @@ func FetchHistoricalExchangeRates(c *gin.Context) {
 
 // GetExchangeRates -retrieves exchange rates based on query parameters
 func GetExchangeRates(c *gin.Context) {
-	baseCurrency := c.DefaultQuery("base", "")         // Extract base currency from query parameter
-	specificCurrency := c.DefaultQuery("currency", "") // Extract specific currency from query parameter
+	baseCurrency := c.DefaultQuery("base", "")
+	specificCurrency := c.DefaultQuery("currency", "")
 	var service service.ExchangeRatesService
 
 	exchangeRates, err := service.GetExchangeRates(baseCurrency, specificCurrency)

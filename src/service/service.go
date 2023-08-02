@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"time"
 	"web-api/src/repository"
-	//"web-api/src/repository"
 )
 
 type ExchangeRatesService struct{}
@@ -27,15 +26,14 @@ type ExchangeRateResponse struct {
 	Rates      map[string]float64 `json:"rates"`
 }
 
-func (s *ExchangeRatesService) FetchHistoricalExchangeRates() ([]ExchangeRates, error) {
-	appID := "8c97ab25682a4b22873780655a250683" // Replace with your Open Exchange Rates API key
+func (s *ExchangeRatesService) FetchHistoricalExchangeRates() (string, error) {
+	appID := "8c97ab25682a4b22873780655a250683"
 	baseURL := "https://openexchangerates.org/api/"
 
 	// Calculate the start date as 10 days ago
 	endDate := time.Now()
 	startDate := endDate.AddDate(0, 0, -10)
 
-	// Initialize your database connection here
 	for date := startDate; date.Before(endDate); date = date.AddDate(0, 0, 1) {
 		formattedDate := date.Format("2006-01-02")
 		url := baseURL + "historical/" + formattedDate + ".json?app_id=" + appID
@@ -74,11 +72,9 @@ func (s *ExchangeRatesService) FetchHistoricalExchangeRates() ([]ExchangeRates, 
 	}
 
 	fmt.Println("Done!")
-	fmt.Println("Print exchange rates from DB:")
-	return []ExchangeRates{}, nil
+	return "Done!", nil
 }
 
-// Retrive exchange rates from database
 // GetExchangeRates retrieves exchange rates from the database with optional filtering by base currency and specific currency
 func (s *ExchangeRatesService) GetExchangeRates(baseCurrency, currency string) ([]ExchangeRates, error) {
 	var exchangeRates []ExchangeRates
